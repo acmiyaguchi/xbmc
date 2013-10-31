@@ -25,14 +25,29 @@
 #include <vector>
 #include <utility>
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 /* Defines a helper struct that is only visible to this class */
-struct InputState {
+
+typedef boost::function<void (IJoystick*)> InputCallback;
+
+class InputState {
+public:
+	InputState(IJoystick* parent):m_joystick(parent) {}
+	void SetCallbacks(InputCallback buttoncb = 0, InputCallback hatcb = 0, InputCallback axescb = 0);
 	InputState& operator-=(const InputState& rhs);
 	const InputState operator-(const InputState &other) const;
+
+	// Public data members
 	std::vector<bool>  buttons;
 	std::vector<JOYSTICK::Hat>  hats;
 	std::vector<float> axes;
+private:
+	IJoystick* m_joystick;
+
+	InputCallback _buttoncb;
+	InputCallback _hatcb;
+	InputCallback _axescb;
 };
 
 /**
