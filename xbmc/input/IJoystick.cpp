@@ -32,13 +32,10 @@ void InputState::SetCallbacks(InputCallback buttoncb, InputCallback hatcb, Input
 	_axescb = axescb;
 }
 
+/* Modify the current state and create the actions. Pass the action back if there is an event */
 InputState& InputState::operator-=(const InputState& rhs) {
 	//Iterate through the buttons
 	for (unsigned int i = 0; i < buttons.size(); i++) {
-	 	if (buttons[i] == rhs.buttons[i])
-		continue;
-		buttons[i] = rhs.buttons[i];
-		
 		//Execute the button callback
 		_buttoncb(m_joystick);
     }
@@ -49,7 +46,7 @@ InputState& InputState::operator-=(const InputState& rhs) {
 		const JOYSTICK::Hat &newHat = rhs.hats[i];
 		if (oldHat == newHat)
 			continue;
-		CLog::Log(LOGDEBUG, "Joystick %d hat %d new direction: %s", joyID, i + 1, newHat.GetDirection());
+		//CLog::Log(LOGDEBUG, "Joystick %d hat %d new direction: %s", joyID, i + 1, newHat.GetDirection());
 
 		// Up, right, down, left
 		for (unsigned int j = 0; j < 4; j++) {
@@ -60,7 +57,7 @@ InputState& InputState::operator-=(const InputState& rhs) {
 			_hatcb(m_joystick);
 		}
 	}
-/*
+
 	// Iterate throught the axes
 	for (unsigned int i = 0; i < rhs.axes.size(); i++)
 	{
@@ -80,7 +77,7 @@ InputState& InputState::operator-=(const InputState& rhs) {
 		}
 
 		//Execute the axes callback
-		_axescb();
+		_axescb(m_joystick);
 	}
 	*/
 	return *this;
@@ -103,6 +100,8 @@ void IJoystick::ResetState(unsigned int buttonCount /* = GAMEPAD_BUTTON_COUNT */
   m_state.buttons.resize(buttonCount);
   m_state.hats.resize(hatCount);
   m_state.axes.resize(axisCount);
+
+  m_oldstate = m_state;
 }
 
 void IJoystick::SetAxis(unsigned int axis, long value, long maxAxisAmount)

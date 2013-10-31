@@ -30,6 +30,7 @@
 #include "settings/Setting.h"
 #include "utils/log.h"
 #include "utils/StdString.h"
+#include <boost/bind.hpp>
 
 // Include joystick APIs
 #if defined(TARGET_WINDOWS)
@@ -108,8 +109,11 @@ void CJoystickManager::Initialize()
   while (m_joysticks.size() > ARRAY_LENGTH(m_states))
     m_joysticks.pop_back();
 
-  for (unsigned int i = 0; i < ARRAY_LENGTH(m_states); i++)
-    m_states[i].ResetState();
+  for (unsigned int i = 0; i < ARRAY_LENGTH(m_states); i++) {
+    m_joysticks[i]->ResetState();
+	m_joysticks[i]->SetCallbacks(
+  }
+
 }
 
 void CJoystickManager::DeInitialize()

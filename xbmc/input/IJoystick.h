@@ -28,7 +28,6 @@
 #include <boost/function.hpp>
 
 /* Defines a helper struct that is only visible to this class */
-
 typedef boost::function<void (IJoystick*)> InputCallback;
 
 class InputState {
@@ -76,6 +75,12 @@ public:
   void ResetState(unsigned int buttonCount = GAMEPAD_BUTTON_COUNT,
                   unsigned int hatCount = GAMEPAD_HAT_COUNT,
                   unsigned int axisCount = GAMEPAD_AXIS_COUNT);
+
+  /* Public interface to the inputstate to set the callbacks */
+  void SetCallbacks(InputCallback buttoncb = 0, InputCallback hatcb = 0, InputCallback axescb = 0) {
+	  m_state.SetCallbacks(buttoncb, hatcb, axescb);
+  }
+
     /**
    * Helper function to normalize a value to maxAxisAmount.
    */
