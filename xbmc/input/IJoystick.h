@@ -23,7 +23,17 @@
 #include "Joystick.h"
 
 #include <vector>
+#include <utility>
 #include <boost/shared_ptr.hpp>
+
+/* Defines a helper struct that is only visible to this class */
+struct InputState {
+	InputState& operator-=(const InputState& rhs);
+	const InputState operator+(const InputState &other) const;
+	std::vector<bool>  m_buttons;
+	std::vector<JOYSTICK::Hat>   m_hats;
+	std::vector<float> m_axes;
+};
 
 /**
  * Interface IJoystick
@@ -43,12 +53,24 @@ public:
    * static void Initialize(JoystickArray &joysticks);
    * static void DeInitialize(JoystickArray &joysticks);
    */
-
+  IJoystick(): m_id(0) { ResetState(); }
   virtual ~IJoystick() { }
 
   virtual void Update() = 0;
 
-  virtual const JOYSTICK::Joystick &GetState() const = 0;
+  void ResetState(unsigned int buttonCount = GAMEPAD_BUTTON_COUNT,
+                  unsigned int hatCount = GAMEPAD_HAT_COUNT,
+                  unsigned int axisCount = GAMEPAD_AXIS_COUNT);
+    /**
+   * Helper function to normalize a value to maxAxisAmount.
+   */
+  void SetAxis(unsigned int axis, long value, long maxAxisAmount);
+
+private:
+  std::string        m_name;
+  unsigned int       m_id;
+  InputState m_state;
+  InputState m_oldstate;
 };
 
 typedef std::vector<boost::shared_ptr<IJoystick> > JoystickArray;
