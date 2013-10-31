@@ -710,6 +710,7 @@
     <ClCompile Include="..\..\xbmc\guilib\XBTFReader.cpp" />
     <ClCompile Include="..\..\xbmc\GUIPassword.cpp" />
     <ClCompile Include="..\..\xbmc\input\ButtonTranslator.cpp" />
+    <ClCompile Include="..\..\xbmc\input\IJoystick.cpp" />
     <ClCompile Include="..\..\xbmc\input\InertialScrollingHandler.cpp" />
     <ClCompile Include="..\..\xbmc\input\Joystick.cpp" />
     <ClCompile Include="..\..\xbmc\input\JoystickManager.cpp" />

@@ -29,10 +29,10 @@
 /* Defines a helper struct that is only visible to this class */
 struct InputState {
 	InputState& operator-=(const InputState& rhs);
-	const InputState operator+(const InputState &other) const;
-	std::vector<bool>  m_buttons;
-	std::vector<JOYSTICK::Hat>   m_hats;
-	std::vector<float> m_axes;
+	const InputState operator-(const InputState &other) const;
+	std::vector<bool>  buttons;
+	std::vector<JOYSTICK::Hat>  hats;
+	std::vector<float> axes;
 };
 
 /**

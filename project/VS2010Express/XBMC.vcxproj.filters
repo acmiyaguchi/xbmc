@@ -3088,6 +3088,9 @@
     <ClCompile Include="..\..\xbmc\input\windows\WINJoystickXInput.cpp">
       <Filter>input\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\xbmc\input\IJoystick.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\xbmc\win32\pch.h">
