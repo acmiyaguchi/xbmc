@@ -34,12 +34,10 @@ public:
 
   virtual ~CJoystickXInput() { }
   virtual void Update();
-  virtual const Joystick &GetState() const { return m_state; }
 
 private:
   CJoystickXInput(unsigned int controllerID, unsigned int id);
 
-  Joystick     m_state;
   unsigned int m_controllerID; // XInput port, in the range (0, 3)
   DWORD        m_dwPacketNumber; // If unchanged, controller state hasn't changed
 };

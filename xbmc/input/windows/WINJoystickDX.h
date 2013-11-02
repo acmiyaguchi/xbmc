@@ -35,7 +35,6 @@ public:
 
   virtual ~CJoystickDX() { Release(); }
   virtual void Update();
-  virtual const Joystick &GetState() const { return m_state; }
 
 private:
   CJoystickDX(LPDIRECTINPUTDEVICE8 joystickDevice, const std::string &name, const DIDEVCAPS &devCaps);
@@ -48,7 +47,6 @@ private:
 
   static LPDIRECTINPUT8 m_pDirectInput;
   LPDIRECTINPUTDEVICE8  m_joystickDevice;
-  Joystick              m_state;
 };
 
 } // namespace JOYSTICK

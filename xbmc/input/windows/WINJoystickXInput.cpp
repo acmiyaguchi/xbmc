@@ -38,7 +38,7 @@
 using namespace JOYSTICK;
 
 CJoystickXInput::CJoystickXInput(unsigned int controllerID, unsigned int id)
-  : m_state(), m_controllerID(controllerID), m_dwPacketNumber(0)
+  : m_controllerID(controllerID), m_dwPacketNumber(0)
 {
   m_state.id = id;
   m_state.name = XINPUT_ALIAS;

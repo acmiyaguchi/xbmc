@@ -54,7 +54,7 @@ struct JoystickEnumContext
 LPDIRECTINPUT8 CJoystickDX::m_pDirectInput = NULL;
 
 CJoystickDX::CJoystickDX(LPDIRECTINPUTDEVICE8 joystickDevice, const std::string &name, const DIDEVCAPS &devCaps)
-  : m_joystickDevice(joystickDevice), m_state()
+  : m_joystickDevice(joystickDevice)
 {
   // m_state.id is set in Initialize() before adding it to the joystick list
   m_state.name = name;

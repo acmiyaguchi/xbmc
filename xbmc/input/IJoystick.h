@@ -21,33 +21,11 @@
 #pragma once
 
 #include "Joystick.h"
+#include "InputState.h"
 
 #include <vector>
 #include <utility>
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
-
-/* Defines a helper struct that is only visible to this class */
-typedef boost::function<void (IJoystick*)> InputCallback;
-
-class InputState {
-public:
-	InputState(IJoystick* parent):m_joystick(parent) {}
-	void SetCallbacks(InputCallback buttoncb = 0, InputCallback hatcb = 0, InputCallback axescb = 0);
-	InputState& operator-=(const InputState& rhs);
-	const InputState operator-(const InputState &other) const;
-
-	// Public data members
-	std::vector<bool>  buttons;
-	std::vector<JOYSTICK::Hat>  hats;
-	std::vector<float> axes;
-private:
-	IJoystick* m_joystick;
-
-	InputCallback _buttoncb;
-	InputCallback _hatcb;
-	InputCallback _axescb;
-};
 
 /**
  * Interface IJoystick
@@ -67,30 +45,23 @@ public:
    * static void Initialize(JoystickArray &joysticks);
    * static void DeInitialize(JoystickArray &joysticks);
    */
-  IJoystick(): m_id(0) { ResetState(); }
+  IJoystick() {}
   virtual ~IJoystick() { }
 
   virtual void Update() = 0;
 
-  void ResetState(unsigned int buttonCount = GAMEPAD_BUTTON_COUNT,
-                  unsigned int hatCount = GAMEPAD_HAT_COUNT,
-                  unsigned int axisCount = GAMEPAD_AXIS_COUNT);
-
-  /* Public interface to the inputstate to set the callbacks */
-  void SetCallbacks(InputCallback buttoncb = 0, InputCallback hatcb = 0, InputCallback axescb = 0) {
-	  m_state.SetCallbacks(buttoncb, hatcb, axescb);
+  void UpdateState() {
+	  m_oldstate -= m_state;
   }
 
-    /**
-   * Helper function to normalize a value to maxAxisAmount.
-   */
-  void SetAxis(unsigned int axis, long value, long maxAxisAmount);
+  void ResetState() { 
+	  m_state.ResetState(); 
+	  m_oldstate.ResetState();
+  }
 
-private:
-  std::string        m_name;
-  unsigned int       m_id;
-  InputState m_state;
-  InputState m_oldstate;
+protected:
+  JOYSTICK::InputState m_state;
+  JOYSTICK::InputState m_oldstate;
 };
 
 typedef std::vector<boost::shared_ptr<IJoystick> > JoystickArray;
